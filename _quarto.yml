@@ -1,0 +1,27 @@
+project:
+  type: website
+  render:
+    - _slides/index.qmd
+    - index.qmd
+website:
+  title: "A distributional perspective on counterfactual and causal sensitivity"
+  site-path: /counterfactual_sensitivity/
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: _slides/index.html
+        text: Slides
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+execute:
+  cache: true
+
+

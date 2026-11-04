@@ -1,0 +1,1058 @@
+---
+title: A distributional perspective on counterfactual and causal sensitivity
+format:
+  ucl-revealjs:
+    html-math-method: katex
+author: 
+  name: Kevin O'Neill
+  affiliation: 
+    name: University College London
+    department: Department of Experimental Psychology<br>Institute of Cognitive Neuroscience
+    url: https://www.ucl.ac.uk
+  degrees: PhD
+  orcid: 0000-0001-7401-9802
+  url: https://kevingoneill.github.io
+
+bibliography: references.bib
+
+# enable tikz figures
+filters:
+  - tikz
+tikz:
+  cache: true
+  embed: img
+  save-tex: false
+  svg-command: [pdf2svg, "{input}", "{output}"]  # use pdf2svg because inkscape breaks fonts
+  
+# embed-resources: true  # use this option for publication
+---
+
+```{r}
+#| label: libraries
+#| include: false
+#| cache: false
+
+# required libraries for plotting utilities
+library(tidyverse)
+library(distributional)
+library(ggdist)
+library(patchwork)
+source("_assets/plotting.R")
+
+# other required libraries
+library(dplyr)
+```
+
+#
+
+:::{.columns .tiny}
+
+::::{.column width="40%" .fragment}
+:::::{.box style="height: 275px"}
+When an effect depends counterfactually on a cause, in general it will depend on much else as well. If the cause had occurred but other circumstances had been different, the effect would not have occurred. To the extent this is so, the dependence is sensitive.
+
+<br>
+
+[Lewis (1986)]{style="float: right"}
+
+:::::
+
+![](https://philosophy.princeton.edu/sites/g/files/toruqf2381/files/styles/freeform_750w/public/featured/lewis.jpg){height=200 style="float: right"}
+::::
+
+::::{.column width="10%"}
+::::
+
+::::{.column width="40%"}
+:::::{.box style="height: 275px"}
+A causal claim is insensitive to the extent to which it would continue to hold under various sorts of changes in the actual circumstances. The sensitivity of counterfactuals is understood similarly.
+
+<br><br><br>
+
+[Woodward (2006)]{style="float: right"}
+
+:::::
+
+![](https://www.hps.pitt.edu/sites/default/files/styles/person_image/public/person-img/Woodward.jpg){height=200 style="float: right"}
+::::
+
+:::
+
+## Sensitivity and causal judgment
+
+:::{.columns}
+::::{.column width="60%"}
+::::{.r-stack}
+:::::{.fragment fragment-index=1 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: lottery_1
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[] (WP) [] { wins prize };
+    \node[hidden] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[hidden] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path[hidden] (AP) edge (WP);
+    \path[hidden] (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+
+:::::{.fragment fragment-index=2 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: lottery_2
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[] (WP) [] { wins prize };
+    \node[] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[hidden] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path[] (AP) edge (WP);
+    \path[hidden] (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+
+:::::{.fragment fragment-index=3 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: lottery_3
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[] (WP) [] { wins prize };
+    \node[] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path[] (AP) edge (WP);
+    \path[] (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+
+:::::{.fragment fragment-index=4 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: lottery_4
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[highlighted] (WP) [] { wins prize };
+    \node[highlighted] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[highlighted] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+::::
+::::
+
+::::{.column width="1%"}
+::::
+
+::::{.column width="39%" .smaller}
+[You won the prize because your number was chosen.]{.fragment fragment-index=5}
+
+[*But why?*]{.fragment .ucl-bright-purple fragment-index=6 style="float: right"}
+::::
+:::
+
+<br>
+
+:::{.columns}
+::::{.column style="width: 33%; font-size: 0.66em;"}
+[<br>]{style="font-size: 1.2em;"}
+
+[$O(AP) \rightarrow O(WP)$]{.fragment fragment-index=7 style="float: right"}
+
+[<br>]{style="font-size: 1.2em;"}
+
+[$O(\neg AP) \rightarrow O(\neg WP)$]{.fragment fragment-index=7 style="float: right"}
+
+[<br>]{style="font-size: 1.2em;"}
+
+[$O(NC) \rightarrow O(WP)$]{.fragment fragment-index=10 style="float: right"}
+
+[<br>]{style="font-size: 1.2em;"}
+
+[$O(\neg NC) \rightarrow O(\neg WP)$]{.fragment fragment-index=10 style="float: right"}
+
+::::
+
+::::{.column width="5%"}
+::::
+
+::::{.column width="25%" .much-smaller}
+[Actual world]{.fragment fragment-index=8}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=8}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=9}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=11}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=11}
+
+::::
+
+::::{.column width="25%" .much-smaller}
+[Typical world]{.fragment fragment-index=12}
+
+[<i class="fa-solid fa-x"></i>]{.fragment fragment-index=12}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=13}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=13}
+
+[<i class="fa-solid fa-check"></i>]{.fragment fragment-index=13}
+::::
+:::
+
+
+## Sensitivity and control
+
+:::{.columns}
+::::{.column width="60%"}
+::::{.r-stack}
+:::::{}
+```{.tikz width=500}
+%%| filename: lottery_5
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[] (WP) [] { wins prize };
+    \node[] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+
+:::::{.fragment fragment-index=4 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: lottery_6
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[] (WP) [] { wins prize };
+    \node[] (AP) [left=of WP, yshift=.66cm] { attends party };
+    \node[highlighted] (NC) [left=of WP, yshift=-.66cm] { number chosen };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+\end{tikzpicture}
+```
+:::::
+::::
+::::
+
+::::{.column width="5%" .much-smaller}
+::::
+
+::::{.column width="35%" .much-smaller}
+::::
+
+:::
+
+<br>
+
+[Say you want to rig the lottery in your favor.]{.fragment fragment-index=1}
+
+[You can intervene on either $AP$ or $NC$ but not both.]{.fragment fragment-index=2}
+
+<br>
+
+:::{.fragment fragment-index=3 width="100%"}
+[*What do you do?*]{.ucl-bright-purple}
+:::
+
+# The central claim {.dark}
+
+[The concept of counterfactual sensitivity bundles together two distinct components]{style="font-size: 1.25em;"}
+
+<br>
+
+:::{.smaller}
+::::{.fragment}
+[**Instrumental role:**]{.ucl-light-orange}
+producing desired outcomes
+::::
+
+::::{.fragment}
+[**Epistemic role:**]{.ucl-light-blue}
+weighing uncertainty
+::::
+:::
+
+
+## A quick sketch
+
+
+[You’re an investor choosing between two companies:]{.fragment}
+
+:::{.incremental .much-smaller}
+ - Company A is expected to perform well and has a stable profile
+ - Company B should perform equally well but has an unstable profile
+:::
+
+<br>
+
+:::{.fragment}
+[Instrumental standpoint:]{.ucl-light-orange} 
+
+::::{.columns .much-smaller}
+:::::{.column width="5%"}
+:::::
+
+:::::{.column width="95%"}
+Each company generates the same expected profit, so it doesn't really matter which choice you make
+:::::
+::::
+
+:::
+
+:::{.fragment}
+[Epistemic standpoint:]{.ucl-light-blue}
+
+::::{.columns .much-smaller}
+:::::{.column width="5%"}
+:::::
+
+:::::{.column width="95%"}
+You should choose Company B since it's more predictable
+:::::
+::::
+:::
+
+
+# A formal definition of counterfactual sensitivity {.dark}
+
+## Causal graphs
+
+:::{.r-stack}
+[$\mathcal{G} = \{ \mathcal{V}, \mathcal{U}, \mathcal{F}, P(\mathcal{U}) \}$]{.fragment fragment-index=1}
+:::
+
+:::{.columns}
+::::{.column width="50%"}
+:::::{.r-stack}
+:::::{.fragment fragment-index=4 .much-smaller}
+[$\mathcal{F}$]{.center-horizontally}
+$$
+\begin{align*}
+    AP &:= U_{AP} \\
+    NC &:= U_{NC} \\
+    WP &:= AP \wedge NC
+\end{align*}
+$$
+:::::
+:::::
+
+:::::{.fragment fragment-index=5 .much-smaller}
+[$P(\mathcal{U})$]{.center-horizontally}
+$$
+\begin{align*}
+    P(U_{AP}) &= .90 \\
+    P(U_{NC}) &= .01
+\end{align*}
+$$
+:::::
+::::
+
+::::{.column width="50%"}
+:::::{.r-stack}
+::::::{.fragment fragment-index=2}
+```{.tikz width=500}
+%%| filename: graph_1
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state] (WP) [] { $WP$ };
+    \node[state] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed, hidden] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed, hidden] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed, hidden] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path[hidden] (UAP) edge (AP);
+    \path[hidden] (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+
+::::::{.fragment fragment-index=3}
+```{.tikz width=500}
+%%| filename: graph_2
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state] (WP) [] { $WP$ };
+    \node[state] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+:::::
+::::
+:::
+
+## Interventions
+
+:::{.r-stack}
+[$P(WP \;\vert\; do(NC=1)) = \; ? \;\;\;$]{.fragment .fade-out fragment-index=2} 
+
+[$P(WP \;\vert\; do(NC=1)) = .90$]{.fragment fragment-index=2}
+:::
+
+:::{.columns}
+::::{.column width="50%"}
+:::::{.r-stack}
+:::::{.fragment .fade-out fragment-index=1 .much-smaller}
+[$\mathcal{F}$]{.center-horizontally}
+$$
+\begin{align*}
+    AP &:= U_{AP} \\
+    NC &:= U_{NC} \\
+    WP &:= AP \wedge NC
+\end{align*}
+$$
+:::::
+
+:::::{.fragment fragment-index=1 .much-smaller}
+[$\mathcal{F}$]{.center-horizontally}
+$$
+\begin{align*}
+    AP &:= U_{AP} \\
+    NC &:= 1 \\
+    WP &:= AP \wedge NC
+\end{align*}
+$$
+:::::
+:::::
+
+:::::{.much-smaller}
+[$P(\mathcal{U})$]{.center-horizontally}
+$$
+\begin{align*}
+    P(U_{AP}) &= .90 \\
+    P(U_{NC}) &= .01
+\end{align*}
+$$
+:::::
+::::
+
+::::{.column width="50%"}
+:::::{.r-stack}
+::::::{.ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_3
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state] (WP) [] { $WP$ };
+    \node[state] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+
+::::::{.fragment fragment-index=1 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_4
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state] (WP) [] { $WP$ };
+    \node[state] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state, highlighted] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path[hidden] (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+:::::
+::::
+:::
+
+
+## Counterfactuals
+
+:::{.r-stack}
+
+[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = \; ?$]{.fragment .fade-out fragment-index=3} 
+
+[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = 0$]{.fragment fragment-index=3}
+:::
+
+:::{.columns}
+::::{.column width="50%"}
+:::::{.r-stack}
+:::::{.fragment .fade-out fragment-index=2 .much-smaller}
+[$\mathcal{F}$]{.center-horizontally}
+$$
+\begin{align*}
+    AP &:= U_{AP} \\
+    NC &:= U_{NC} \\
+    WP &:= AP \wedge NC
+\end{align*}
+$$
+:::::
+
+:::::{.fragment fragment-index=2 .much-smaller}
+[$\mathcal{F}$]{.center-horizontally}
+$$
+\begin{align*}
+    AP &:= U_{AP} \\
+    NC &:= 0 \\
+    WP &:= AP \wedge NC
+\end{align*}
+$$
+:::::
+:::::
+
+:::::{.much-smaller}
+[$P(\mathcal{U})$]{.center-horizontally}
+$$
+\begin{align*}
+    P(U_{AP}) &= .90 \\
+    P(U_{NC}) &= .01
+\end{align*}
+$$
+:::::
+::::
+
+::::{.column width="50%"}
+:::::{.r-stack}
+::::::{.ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_5
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state] (WP) [] { $WP$ };
+    \node[state] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+
+::::::{.fragment fragment-index=1 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_6
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state, highlighted] (WP) [] { $WP$ };
+    \node[state, highlighted] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state, highlighted] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed, highlighted] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed, highlighted] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+
+::::::{.fragment fragment-index=2 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_7
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state, highlighted] (WP) [] { $WP$ };
+    \node[state, highlighted] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state, unboxed, draw=UCL_dark_purple] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed, highlighted] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed, highlighted] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path[hidden] (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+
+::::::{.fragment fragment-index=3 .ucl-white-bg}
+```{.tikz width=500}
+%%| filename: graph_8
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state, unboxed, draw=UCL_dark_purple] (WP) [] { $WP$ };
+    \node[state, highlighted] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state, unboxed, draw=UCL_dark_purple] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed, highlighted] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed, highlighted] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+    \path (UAP) edge (AP);
+    \path[hidden] (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+:::::
+::::
+:::
+
+
+
+
+## Counterfactual sensitivity
+
+:::{.center-vertically .left }
+::::{.box .ucl-white-bg .ucl-dark-purple-outline style="padding: 0px" .fragment fragment-index=1}
+:::::{.fragment fragment-index=4}
+[$\mathfrak{N}(\mathcal{U})$]{.absolute top=15 left=15 .ucl-mid-purple style="font-size: 1.25em"}
+
+<br>
+
+```{r}
+#| label: mvnorm_1
+#| fig-width: 3.66
+#| fig-height: 2.5
+mu <- c(0, 0)
+sigma <- c(1, 1)
+rho <- .5
+omega <- matrix(c(1, rho, rho, 1), nrow=2)
+
+D <- dist_multivariate_normal(mu=list(mu),
+                              sigma=list(diag(sigma) %*% omega %*% diag(sigma)))
+
+d <- expand_grid(x=seq(-4, 4, by=.05),
+                 y=seq(-4, 4, by=.05)) |>
+  mutate(z=map2_dbl(x, y, ~ density(D, at=c(.x, .y))[[1]]))
+
+
+ggplot(d, aes(x=x, y=y, alpha=z)) +
+  geom_raster(fill=ucl_mid_purple) +
+  scale_alpha_continuous(range=c(0, 1)) +
+  coord_fixed(xlim=c(-3, 3), ylim=c(-3, 3)) +
+  theme_void(paper=NA) +
+  theme(legend.position='none')
+```
+:::::
+
+[$u$]{.center-xy .much-larger}
+::::
+:::
+
+:::{.fragment fragment-index=2}
+[$Y_{X=x'}$]{.absolute left=400 top=250}
+
+[$\Longrightarrow$]{.center-vertically style="font-size: 2.5em; left: 375px"}
+:::
+
+:::{.center-vertically .right}
+[$Y_{X=x'}(u)$]{.tiny .absolute top="-5%" left="25%" .fragment fragment-index=3}
+
+[$Y_{X=x'}(u')$]{.ucl-mid-purple .tiny .absolute top="25%" left="66%" .fragment fragment-index=5}
+
+
+::::{.r-stack}
+:::::{.fragment fragment-index=3}
+```{r}
+#| label: norm_dist_1
+#| fig-width: 6
+#| fig-height: 2
+tibble(mean=1, sd=1, yprime=0) |>
+  ggplot() +
+  geom_vline(aes(xintercept=yprime)) +
+  scale_y_continuous(expand=expansion()) +
+  xlim(-2, 4) +
+  theme_classic(18, paper=NA) +
+  theme(axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.line.y=element_blank(),
+        axis.ticks=element_blank())
+```
+:::::
+
+:::::{.fragment fragment-index=5}
+```{r}
+#| label: norm_dist_2
+#| fig-width: 6
+#| fig-height: 2
+tibble(mean=1, sd=1, yprime=0) |>
+  ggplot() +
+  stat_slab(aes(xdist=dist_normal(mean, sd)), fill=ucl_mid_purple) +
+  geom_vline(aes(xintercept=yprime)) +
+  scale_y_continuous(expand=expansion()) +
+  xlim(-2, 4) +
+  theme_classic(18, paper=NA) +
+  theme(axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.line.y=element_blank(),
+        axis.ticks=element_blank())
+```
+:::::
+
+::::
+:::
+
+[Sensitivity is a measure of model fit!]{width=675 .absolute bottom="50px" .center-horizontally .fragment fragment-index=6}
+
+
+## Counterfactual sensitivity
+
+:::{.larger .center-xy}
+$$
+\begin{align*}
+&\textrm{Sensitivity}_{\mathfrak{N},\delta,f}\left(Y_{X=x'}(u) = y'\right) \\
+&\quad\equiv f\left( \mathbb{E}_{u' \sim \mathfrak{N}(\mathcal{U})} \left[ \delta \left( Y_{X=x'}(u'), y' \right)\right] \right)
+\end{align*}
+$$
+:::
+
+:::{.fragment .fade-out}
+::::{.absolute left=62 top=352 width=180 height=100 .ucl-white-bg}
+::::
+
+::::{.absolute right=-5 top=352 width=30 height=100 .ucl-white-bg}
+::::
+:::
+
+:::{.fragment .fade-out}
+::::{.absolute left=245 top=352 width=360 height=100 .ucl-white-bg}
+::::
+
+::::{.absolute right=26 top=352 width=40 height=100 .ucl-white-bg}
+::::
+:::
+
+:::{.fragment .fade-out .absolute right=72 top=352 width=85 height=100 .ucl-white-bg}
+:::
+
+:::{.fragment .fade-out .absolute left=605 top=352 width=285 height=100 .ucl-white-bg}
+:::
+
+
+# Decomposing sensitivity {.dark}
+
+## Decomposing sensitivity
+
+:::{.absolute left=105 bottom=125 width=350 height=55 .ucl-light-blue-bg style="opacity: 50%;" .fragment fragment-index=6}
+:::
+
+:::{.absolute right=64 bottom=125 width=490 height=55 .ucl-light-orange-bg style="opacity: 50%;" .fragment fragment-index=6}
+:::
+
+
+:::{.much-smaller}
+<br>
+
+::::{.r-stack}
+[$$\textrm{Sensitivity}_{\mathfrak{N},\delta,f}(Y_{X=x'}(u)=y') \equiv f\left( \mathbb{E}_{u' \sim \mathfrak{N}(\mathcal{U})} \left[ \delta \left( Y_{X=x'}(u'), y' \right)\right] \right)$$]{.fragment .fade-out fragment-index=1}
+
+::::{.fragment fragment-index=1}
+$$\textrm{Sensitivity}_{\mathfrak{N}}(Y_{X=x'}(u)=y') \equiv \,\sqrt{\mathbb{E}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[(Y_{X=x'}(u') - y')^2\right]}$$
+:::::
+::::
+
+
+[$\quad= \sqrt{\textrm{Var}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[Y_{X=x'}(u') - y'\right] + \mathbb{E}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[Y_{X=x'}(u') - y'\right]^2}$]{.fragment fragment-index=2}
+
+[$\quad= \sqrt{\textrm{Var}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[Y_{X=x'}(u')\right] + \left(\mathbb{E}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[Y_{X=x'}(u')\right] - y'\right)^2}$]{.fragment fragment-index=3}
+
+[$\quad= \sqrt{\textrm{Var}_{\mathfrak{N}}\left[Y_{X=x'}\right] + \textrm{Bias}\left(\mathbb{E}_{\mathfrak{N}}\left[Y_{X=x'}\right], \; y'\right)^2}$]{.fragment fragment-index=4}
+
+[$\quad= \sqrt{\textrm{Var}_{\mathfrak{N}}\left[Y \;\vert\; do(X=x')\right] + \textrm{Bias}\left(\mathbb{E}_{\mathfrak{N}}\left[Y \;\vert\; do(X=x')\right], \; y'\right)^2}$]{.fragment fragment-index=5}
+:::
+
+
+## Special case for binary variables
+
+:::{.much-smaller}
+<br>
+
+::::{.r-stack}
+$$
+\begin{align*}
+\textrm{Sensitivity}_{\mathfrak{N}}(Y_{X=x'}(u)=y') &\equiv \,\sqrt{\mathbb{E}_{u'\sim\mathfrak{N}(\mathcal{U})}\left[(Y_{X=x'}(u') - y')^2\right]} \\
+&= \sqrt{\mathfrak{N}(Y\ne y'\;\vert\; do(X=x'))}
+\end{align*}
+$$
+::::
+:::
+
+:::{.ucl-white-bg .absolute right=60 top=240 width=500 height=75 .fragment .fade-out}
+:::
+
+
+## Example: robust sufficiency
+
+
+:::{.columns }
+::::{.column width="60%" .much-smaller}
+
+[$\textrm{Sensitivity}_{\mathfrak{N}}(WP_{AP=1}(u)=1)$]{.fragment}
+
+[$\quad= \sqrt{\mathfrak{N}(WP = 0 \;\vert\; do(AP=1))}$]{.fragment}
+
+[$\quad= \sqrt{\mathfrak{N}(WP = 0 \;\vert\; AP=1)}$]{.fragment}
+
+[$\quad= \sqrt{\mathfrak{N}(NC = 0)}$]{.fragment}
+
+[$\quad\approx 0.99$]{.fragment}
+
+<br>
+
+:::::{.fragment}
+$\textrm{Sensitivity}_{\mathfrak{N}}(WP_{NC=1}(u)=1)$
+
+$\quad= \sqrt{\mathfrak{N}(AP = 0)}$
+
+$\quad\approx 0.32$
+:::::
+
+::::
+
+::::{.column width="40%"}
+<br><br>
+
+:::::{.r-stack}
+::::::{.ucl-white-bg}
+```{.tikz width=500}
+%%| filename: sufficiency
+\include{tikz_header.tex}
+\begin{tikzpicture}
+    \node[state, highlighted] (WP) [] { $WP$ };
+    \node[state, highlighted] (AP) [left=.5cm of WP, yshift=.66cm] { $AP$ };
+    \node[state, highlighted] (NC) [left=.5cm of WP, yshift=-.66cm] { $NC$ };
+    \node[state, unboxed, highlighted] (UAP) [left=.5cm of AP] { $U_{AP}$ };
+    \node[state, unboxed, highlighted] (UNC) [left=.5cm of NC] { $U_{NC}$ };
+    
+    \node[unboxed] (U) [above=.1cm of UAP] { $\mathcal{U}$ };
+    \node[unboxed] (V) [right=1.4cm of U] { $\mathcal{V}$ };
+    
+    \path (AP) edge (WP);
+    \path (NC) edge (WP);
+        \path (UAP) edge (AP);
+    \path (UNC) edge (NC);
+\end{tikzpicture}
+```
+::::::
+:::::
+::::
+:::
+
+
+
+
+## [Counterfactual bias and variance]{ .much-smaller }
+
+:::{.r-stack}
+::::{.fragment}
+```{r}
+#| label: bias_variance_1
+bias_variance_plot <- function(
+  bias, variance, y_prime=0, show_bias=TRUE, show_variance=TRUE, nudge=.15
+) {  
+  p <- ggplot(tibble(Bias=bias, Variance=variance)) +
+    stat_slab(aes(xdist=dist_normal(Bias, sqrt(Variance))), fill="grey90") +
+    geom_vline(aes(xintercept=y_prime), linetype='dotted') +
+    geom_text(aes(x=x, y=y), label=expression(Y["X=x'"]*"(u)"), size=4, hjust=1,
+      data=tibble(x=y_prime-2*nudge, y=.95)) +
+    scale_x_continuous(expression(Y["X=x'"])) +
+    scale_y_continuous(expand=expansion(mult=c(0, .1))) +
+    theme_classic(18, paper=NA) +
+    theme(
+      axis.title.y=element_blank(),
+      axis.text=element_blank(),
+      axis.ticks=element_blank(),
+      axis.line.y=element_blank(),
+      axis.line.x=element_blank(),
+      strip.text.x=element_text(color=ucl_light_blue, face='bold'),
+      strip.text.y=element_text(color=ucl_light_orange, face='bold'),
+      axis.line.x.bottom=element_line(linewidth=1)
+    )
+
+  if (show_bias) {
+    p <- p + geom_segment(
+      aes(x=y_prime-nudge, xend=Bias+nudge), y=.5, linewidth=1.5, color=ucl_light_orange
+    )
+  }
+  if (show_variance) {
+    p <- p + geom_segment(
+      aes(x=Bias-sqrt(Variance), xend=Bias+sqrt(Variance)),
+      y=.1, linewidth=1.5, color=ucl_light_blue
+    )
+  }
+
+  p
+}
+
+p1 <- bias_variance_plot(0, 1)  + facet_grid(~ Variance, labeller=label_both)
+p2 <- bias_variance_plot(0, 10) + facet_grid(Bias ~ Variance, labeller=label_both)
+p3 <- bias_variance_plot(3, 1)
+p4 <- bias_variance_plot(3, 10) + facet_grid(Bias ~ ., labeller=label_both)
+
+((p1 + hide_plot(p2) +
+  hide_plot(p3) + hide_plot(p4)) &
+  coord_cartesian(xlim=c(-6, 8))) +
+  plot_layout(guides='collect')
+```
+::::
+
+::::{.fragment}
+```{r}
+#| label: bias_variance_2
+((p1 + hide_plot(p2) +
+  p3 + hide_plot(p4)) &
+  coord_cartesian(xlim=c(-6, 8))) +
+  plot_layout(guides='collect')
+```
+::::
+
+::::{.fragment}
+```{r}
+#| label: bias_variance_3
+((p1 + p2 + p3 + hide_plot(p4)) &
+  coord_cartesian(xlim=c(-6, 8))) +
+  plot_layout(guides='collect')
+```
+::::
+
+::::{.fragment}
+```{r}
+#| label: bias_variance_4
+((p1 + p2 + p3 + p4) &
+  coord_cartesian(xlim=c(-6, 8))) +
+  plot_layout(guides='collect')
+```
+::::
+:::
+
+
+# The central claim {.dark}
+
+[The concept of counterfactual sensitivity bundles together two distinct components]{style="font-size: 1.25em;"}
+
+<br>
+
+:::{.smaller}
+[**Instrumental role:**]{.ucl-light-orange}
+producing desired outcomes
+
+[$$\left(\mathbb{E}_{\mathfrak{N}}\left[Y \;\vert\; do(X=x')\right] - y'\right)^2$$]{.fragment .ucl-light-orange}
+
+[**Epistemic role:**]{.ucl-light-blue}
+weighing uncertainty
+
+[$$\textrm{Var}_{\mathfrak{N}}\left[Y \;\vert\; do(X=x')\right]$$]{.fragment .ucl-light-blue}
+:::
+
+
+## Returning to our example
+You’re an investor choosing between two companies:
+
+:::{.much-smaller}
+ - Company A is expected to perform well and has a stable profile
+ - Company B should perform equally well but has an unstable profile
+:::
+
+<br>
+
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator*{\argmin}{argmin}
+
+
+:::{.fragment}
+[Instrumental standpoint:]{.ucl-light-orange} 
+
+::::{.columns .much-smaller}
+:::::{.column width="5%"}
+:::::
+
+:::::{.column width="95%"}
+Under the policy [$\argmax_{x \in \{A, B\}} \mathbb{E}_\mathfrak{N}\left[Y \;\vert\; do(X=x)\right]$]{.much-smaller .ucl-light-orange}, it doesn't matter which company you choose!
+:::::
+::::
+
+:::
+
+:::{.fragment}
+[Epistemic standpoint:]{.ucl-light-blue}
+
+::::{.columns .much-smaller}
+:::::{.column width="5%"}
+:::::
+
+:::::{.column width="95%"}
+Under the policy [$\argmin_{x \in \{A, B\}} \textrm{Var}_\mathfrak{N}\left[Y \;\vert\; do(X=x)\right]$]{.much-smaller .ucl-light-blue}, you should choose Company A *because it gives you more control*!
+:::::
+::::
+:::
+
+
+## Conclusions
+:::{.center-vertically}
+:::{.fragment}
+We can think of sensitivity as distance between:
+
+::::{.much-smaller}
+   - The counterfactual outcome
+   - The interventional distribution with respect to $\mathfrak{N}$
+::::
+:::
+
+
+[This explains:]{.fragment}
+
+:::{.incremental .much-smaller}
+  - why causal judgments are sensitive to norms
+  - why "counterfactual" models are often interventional
+  - how confidence relates to causal judgments
+  - how sensitivity also guides future-oriented decisions
+:::
+:::
+
+# Thank you!
+
+
+## References

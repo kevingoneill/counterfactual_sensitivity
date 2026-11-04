@@ -1,0 +1,11 @@
+_site/
+
+**/*.*~
+**/*.rds
+
+**/index.html
+
+**/index_files
+**/index_cache
+/.quarto/
+**/*.quarto_ipynb
