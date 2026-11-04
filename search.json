@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "_slides/index.html#sensitivity-and-causal-judgment",
+    "href": "_slides/index.html#sensitivity-and-causal-judgment",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Sensitivity and causal judgment",
+    "text": "Sensitivity and causal judgment\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYou won the prize because your number was chosen.\nBut why?\n\n\n\n\n\nO(AP) \\rightarrow O(WP)\n\nO(\\neg AP) \\rightarrow O(\\neg WP)\n\nO(NC) \\rightarrow O(WP)\n\nO(\\neg NC) \\rightarrow O(\\neg WP)\n\n\n\nActual world\n\n\n\n\n\nTypical world"
+  },
+  {
+    "objectID": "_slides/index.html#sensitivity-and-control",
+    "href": "_slides/index.html#sensitivity-and-control",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Sensitivity and control",
+    "text": "Sensitivity and control\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSay you want to rig the lottery in your favor.\nYou can intervene on either AP or NC but not both.\n\n\nWhat do you do?"
+  },
+  {
+    "objectID": "_slides/index.html#a-quick-sketch",
+    "href": "_slides/index.html#a-quick-sketch",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "A quick sketch",
+    "text": "A quick sketch\nYou’re an investor choosing between two companies:\n\n\nCompany A is expected to perform well and has a stable profile\nCompany B should perform equally well but has an unstable profile\n\n\n\n\nInstrumental standpoint:\n\n\n\n\nEach company generates the same expected profit, so it doesn’t really matter which choice you make\n\n\n\nEpistemic standpoint:\n\n\n\n\nYou should choose Company B since it’s more predictable"
+  },
+  {
+    "objectID": "_slides/index.html#causal-graphs",
+    "href": "_slides/index.html#causal-graphs",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Causal graphs",
+    "text": "Causal graphs\n\n\\mathcal{G} = \\{ \\mathcal{V}, \\mathcal{U}, \\mathcal{F}, P(\\mathcal{U}) \\}\n\n\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= U_{NC} \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\nP(\\mathcal{U}) \n\\begin{align*}\n    P(U_{AP}) &= .90 \\\\\n    P(U_{NC}) &= .01\n\\end{align*}"
+  },
+  {
+    "objectID": "_slides/index.html#interventions",
+    "href": "_slides/index.html#interventions",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Interventions",
+    "text": "Interventions\n\nP(WP \\;\\vert\\; do(NC=1)) = \\; ? \\;\\;\\;\nP(WP \\;\\vert\\; do(NC=1)) = .90\n\n\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= U_{NC} \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= 1 \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\nP(\\mathcal{U}) \n\\begin{align*}\n    P(U_{AP}) &= .90 \\\\\n    P(U_{NC}) &= .01\n\\end{align*}"
+  },
+  {
+    "objectID": "_slides/index.html#counterfactuals",
+    "href": "_slides/index.html#counterfactuals",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Counterfactuals",
+    "text": "Counterfactuals\n\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = \\; ?\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = 0\n\n\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= U_{NC} \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= 0 \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\nP(\\mathcal{U}) \n\\begin{align*}\n    P(U_{AP}) &= .90 \\\\\n    P(U_{NC}) &= .01\n\\end{align*}"
+  },
+  {
+    "objectID": "_slides/index.html#counterfactual-sensitivity",
+    "href": "_slides/index.html#counterfactual-sensitivity",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Counterfactual sensitivity",
+    "text": "Counterfactual sensitivity\n\n\n\n\\mathfrak{N}(\\mathcal{U})\n\n\n\n\n\n\n\n\n\n\n\nu\n\n\n\nY_{X=x'}\n\\Longrightarrow\n\n\nY_{X=x'}(u)\nY_{X=x'}(u')\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSensitivity is a measure of model fit!"
+  },
+  {
+    "objectID": "_slides/index.html#counterfactual-sensitivity-1",
+    "href": "_slides/index.html#counterfactual-sensitivity-1",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Counterfactual sensitivity",
+    "text": "Counterfactual sensitivity\n\n\n\\begin{align*}\n&\\textrm{Sensitivity}_{\\mathfrak{N},\\delta,f}\\left(Y_{X=x'}(u) = y'\\right) \\\\\n&\\quad\\equiv f\\left( \\mathbb{E}_{u' \\sim \\mathfrak{N}(\\mathcal{U})} \\left[ \\delta \\left( Y_{X=x'}(u'), y' \\right)\\right] \\right)\n\\end{align*}"
+  },
+  {
+    "objectID": "_slides/index.html#decomposing-sensitivity-1",
+    "href": "_slides/index.html#decomposing-sensitivity-1",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Decomposing sensitivity",
+    "text": "Decomposing sensitivity\n\n\n\n\n\n\n\n\n\n\\textrm{Sensitivity}_{\\mathfrak{N},\\delta,f}(Y_{X=x'}(u)=y') \\equiv f\\left( \\mathbb{E}_{u' \\sim \\mathfrak{N}(\\mathcal{U})} \\left[ \\delta \\left( Y_{X=x'}(u'), y' \\right)\\right] \\right)\n\n\\textrm{Sensitivity}_{\\mathfrak{N}}(Y_{X=x'}(u)=y') \\equiv \\,\\sqrt{\\mathbb{E}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[(Y_{X=x'}(u') - y')^2\\right]}\n\n\n\\quad= \\sqrt{\\textrm{Var}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[Y_{X=x'}(u') - y'\\right] + \\mathbb{E}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[Y_{X=x'}(u') - y'\\right]^2}\n\\quad= \\sqrt{\\textrm{Var}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[Y_{X=x'}(u')\\right] + \\left(\\mathbb{E}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[Y_{X=x'}(u')\\right] - y'\\right)^2}\n\\quad= \\sqrt{\\textrm{Var}_{\\mathfrak{N}}\\left[Y_{X=x'}\\right] + \\textrm{Bias}\\left(\\mathbb{E}_{\\mathfrak{N}}\\left[Y_{X=x'}\\right], \\; y'\\right)^2}\n\\quad= \\sqrt{\\textrm{Var}_{\\mathfrak{N}}\\left[Y \\;\\vert\\; do(X=x')\\right] + \\textrm{Bias}\\left(\\mathbb{E}_{\\mathfrak{N}}\\left[Y \\;\\vert\\; do(X=x')\\right], \\; y'\\right)^2}"
+  },
+  {
+    "objectID": "_slides/index.html#special-case-for-binary-variables",
+    "href": "_slides/index.html#special-case-for-binary-variables",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Special case for binary variables",
+    "text": "Special case for binary variables\n\n\n\n\n\\begin{align*}\n\\textrm{Sensitivity}_{\\mathfrak{N}}(Y_{X=x'}(u)=y') &\\equiv \\,\\sqrt{\\mathbb{E}_{u'\\sim\\mathfrak{N}(\\mathcal{U})}\\left[(Y_{X=x'}(u') - y')^2\\right]} \\\\\n&= \\sqrt{\\mathfrak{N}(Y\\ne y'\\;\\vert\\; do(X=x'))}\n\\end{align*}"
+  },
+  {
+    "objectID": "_slides/index.html#example-robust-sufficiency",
+    "href": "_slides/index.html#example-robust-sufficiency",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Example: robust sufficiency",
+    "text": "Example: robust sufficiency\n\n\n\\textrm{Sensitivity}_{\\mathfrak{N}}(WP_{AP=1}(u)=1)\n\\quad= \\sqrt{\\mathfrak{N}(WP = 0 \\;\\vert\\; do(AP=1))}\n\\quad= \\sqrt{\\mathfrak{N}(WP = 0 \\;\\vert\\; AP=1)}\n\\quad= \\sqrt{\\mathfrak{N}(NC = 0)}\n\\quad\\approx 0.99\n\n\n\\textrm{Sensitivity}_{\\mathfrak{N}}(WP_{NC=1}(u)=1)\n\\quad= \\sqrt{\\mathfrak{N}(AP = 0)}\n\\quad\\approx 0.32"
+  },
+  {
+    "objectID": "_slides/index.html#counterfactual-bias-and-variance",
+    "href": "_slides/index.html#counterfactual-bias-and-variance",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Counterfactual bias and variance",
+    "text": "Counterfactual bias and variance"
+  },
+  {
+    "objectID": "_slides/index.html#returning-to-our-example",
+    "href": "_slides/index.html#returning-to-our-example",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Returning to our example",
+    "text": "Returning to our example\nYou’re an investor choosing between two companies:\n\n\nCompany A is expected to perform well and has a stable profile\nCompany B should perform equally well but has an unstable profile\n\n\n\n\nInstrumental standpoint:\n\n\n\n\nUnder the policy \\mathop{\\mathrm{argmax}}_{x \\in \\{A, B\\}} \\mathbb{E}_\\mathfrak{N}\\left[Y \\;\\vert\\; do(X=x)\\right], it doesn’t matter which company you choose!\n\n\n\nEpistemic standpoint:\n\n\n\n\nUnder the policy \\mathop{\\mathrm{argmin}}_{x \\in \\{A, B\\}} \\textrm{Var}_\\mathfrak{N}\\left[Y \\;\\vert\\; do(X=x)\\right], you should choose Company A because it gives you more control!"
+  },
+  {
+    "objectID": "_slides/index.html#conclusions",
+    "href": "_slides/index.html#conclusions",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "Conclusions",
+    "text": "Conclusions\n\n\nWe can think of sensitivity as distance between:\n\n\nThe counterfactual outcome\nThe interventional distribution with respect to \\mathfrak{N}\n\n\n\nThis explains:\n\n\nwhy causal judgments are sensitive to norms\nwhy “counterfactual” models are often interventional\nhow confidence relates to causal judgments\nhow sensitivity also guides future-oriented decisions"
+  },
+  {
+    "objectID": "_slides/index.html#references",
+    "href": "_slides/index.html#references",
+    "title": "A distributional perspective on counterfactual and causal sensitivity",
+    "section": "References",
+    "text": "References"
+  }
+]
