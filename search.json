@@ -46,7 +46,7 @@
     "href": "_slides/index.html#counterfactuals",
     "title": "A distributional perspective on counterfactual and causal sensitivity",
     "section": "Counterfactuals",
-    "text": "Counterfactuals\n\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = \\; ?\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = 0\n\n\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= U_{NC} \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= 0 \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\nP(\\mathcal{U}) \n\\begin{align*}\n    P(U_{AP}) &= .90 \\\\\n    P(U_{NC}) &= .01\n\\end{align*}"
+    "text": "Counterfactuals\n\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1) = 1) = \\; ?\nP(WP_{NC=0}(U_{AP} = U_{NC} = 1) = 1) = 0\n\n\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= U_{NC} \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\\mathcal{F} \n\\begin{align*}\n    AP &:= U_{AP} \\\\\n    NC &:= 0 \\\\\n    WP &:= AP \\wedge NC\n\\end{align*}\n\n\n\n\nP(\\mathcal{U}) \n\\begin{align*}\n    P(U_{AP}) &= .90 \\\\\n    P(U_{NC}) &= .01\n\\end{align*}"
   },
   {
     "objectID": "_slides/index.html#counterfactual-sensitivity",
@@ -103,12 +103,5 @@
     "title": "A distributional perspective on counterfactual and causal sensitivity",
     "section": "Conclusions",
     "text": "Conclusions\n\n\nWe can think of sensitivity as distance between:\n\n\nThe counterfactual outcome\nThe interventional distribution with respect to \\mathfrak{N}\n\n\n\nThis explains:\n\n\nwhy causal judgments are sensitive to norms\nwhy “counterfactual” models are often interventional\nhow confidence relates to causal judgments\nhow sensitivity also guides future-oriented decisions"
-  },
-  {
-    "objectID": "_slides/index.html#references",
-    "href": "_slides/index.html#references",
-    "title": "A distributional perspective on counterfactual and causal sensitivity",
-    "section": "References",
-    "text": "References"
   }
 ]
