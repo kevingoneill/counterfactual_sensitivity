@@ -3,6 +3,7 @@ title: A distributional perspective on counterfactual and causal sensitivity
 format:
   ucl-revealjs:
     html-math-method: katex
+    pdf-separate-fragments: true
 author: 
   name: Kevin O'Neill
   affiliation: 
@@ -505,9 +506,9 @@ $$
 
 :::{.r-stack}
 
-[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = \; ?$]{.fragment .fade-out fragment-index=3} 
+[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1) = 1) = \; ?$]{.fragment .fade-out fragment-index=3} 
 
-[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1)) = 0$]{.fragment fragment-index=3}
+[$P(WP_{NC=0}(U_{AP} = U_{NC} = 1) = 1) = 0$]{.fragment fragment-index=3}
 :::
 
 :::{.columns}
@@ -643,6 +644,7 @@ $$
 
 
 
+
 ## Counterfactual sensitivity
 
 :::{.center-vertically .left }
@@ -738,6 +740,8 @@ tibble(mean=1, sd=1, yprime=0) |>
 [Sensitivity is a measure of model fit!]{width=675 .absolute bottom="50px" .center-horizontally .fragment fragment-index=6}
 
 
+
+
 ## Counterfactual sensitivity
 
 :::{.larger .center-xy}
@@ -748,6 +752,15 @@ $$
 \end{align*}
 $$
 :::
+
+:::{.fragment .fade-out}
+::::{.absolute left=-12 top=250 width=500 height=100 .ucl-white-bg}
+::::
+
+::::{.absolute right=105 top=250 width=30 height=100 .ucl-white-bg}
+::::
+:::
+
 
 :::{.fragment .fade-out}
 ::::{.absolute left=62 top=352 width=180 height=100 .ucl-white-bg}
@@ -770,6 +783,7 @@ $$
 
 :::{.fragment .fade-out .absolute left=605 top=352 width=285 height=100 .ucl-white-bg}
 :::
+
 
 
 # Decomposing sensitivity {.dark}
@@ -1052,7 +1066,7 @@ We can think of sensitivity as distance between:
 :::
 :::
 
-# Thank you!
 
 
-## References
+# Thank you! {.dark}
+
